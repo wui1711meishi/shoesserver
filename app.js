@@ -5,6 +5,18 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var session = require('express-session');
 var svgCaptcha = require('svg-captcha');
+var query=require('./lib/sql')
+
+var s = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'upload/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now()+file.originalname);
+    }
+})
+
+var upload = multer({ storage: s})
 
 
 var loginRouter = require('./routes/login');
