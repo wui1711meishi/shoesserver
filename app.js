@@ -45,6 +45,11 @@ app.use('/', loginRouter);
 app.use('/goods', goodsRouter);
 app.use('/car', carRouter);
 
+app.get('/api/admin',function (req,res) {
+    query('select * from admin where id=0',function (err,data) {
+        res.json(data)
+    })
+})
 
 app.get('*',function (req,res) {
     res.send('*****');
