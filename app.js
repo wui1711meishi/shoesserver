@@ -20,8 +20,10 @@ var upload = multer({ storage: s})
 
 
 var loginRouter = require('./routes/login');
-var goodsRouter = require('./routes/goods');
-var carRouter = require('./routes/car');
+var adminRouter = require('./routes/admin');
+var userRouter = require('./routes/user');
+var productRouter = require('./routes/product');
+var bannerRouter = require('./routes/banner');
 
 var app = express();
 
@@ -41,15 +43,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', loginRouter);
-app.use('/goods', goodsRouter);
-app.use('/car', carRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/user', userRouter);
+app.use('/api/product', productRouter);
+app.use('/api/banner', bannerRouter);
 
-app.get('/api/admin',function (req,res) {
-    query('select * from admin',function (err,data) {
-        res.json(data)
-    })
-})
+
+
+
 
 app.get('*',function (req,res) {
     res.send('*****');
