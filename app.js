@@ -46,7 +46,7 @@ app.use('/goods', goodsRouter);
 app.use('/car', carRouter);
 
 app.get('/api/admin',function (req,res) {
-    query('select * from admin where id=0',function (err,data) {
+    query('select * from admin',function (err,data) {
         res.json(data)
     })
 })
