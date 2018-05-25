@@ -41,6 +41,7 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.static(path.join(__dirname, '/public')));
 app.use('/api',express.static(path.join(__dirname, '/public')));
 
 app.use('/api/login', loginRouter);
