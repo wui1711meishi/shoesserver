@@ -16,6 +16,11 @@ router.get('/bannerset',function (req,res) {
         }
     })
 });
+router.get('/bannerzd',function (req,res) {
+    query('select * from shoes where fine="true"',function (err,data) {
+        res.send(data);
+    })
+})
 
 
 var upload=multer({

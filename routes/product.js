@@ -132,4 +132,54 @@ router.post('/delete', function (req, res) {
     })
 })
 
+router.post('/order', function (req, res) {
+    let size=req.body.size;
+    let color=req.body.color;
+    let num=req.body.num;
+    let sid=req.body.sid;
+    let name="";
+    let price="";
+    let img="";
+    let ordernumber=new Date().getTime();
+    query(`select * from shoes where id=${sid}`,(err,data)=> {
+        name=data[0].name;
+        price=data[0].price;
+        img=JSON.parse(data[0].img.split('--')[0]).url;
+        query(`insert into orders (sid,ordernumber,name,price,size,color,num,img) value ('${sid}','${ordernumber}','${name}','${price}','${size}','${color}','${num}','${img}')`,function (err,data) {
+
+        })
+
+    })
+})
+
+router.post('/adar', function (req, res) {
+    let add=req.body.add;
+    let sid=req.body.sid;
+        query(`update orders set address='${add}' where sid=${sid}`,function (err,data) {
+
+        })
+    query(`select ordernumber from orders where sid=${sid}`,function (err,data) {
+        res.json(data);
+    })
+})
+
+router.get('/my',function (req,res) {
+    query(`select * from orders`,function (err,data) {
+        res.json(data);
+    })
+})
+
+router.get('/del',function (req,res) {
+    let id=req.query.id;
+    query(`delete from orders where id=${id}`,function (err,data) {
+
+    })
+})
+
+router.get('/car',function (req,res) {
+    query(`select * from orders`,function (err,data) {
+        res.json(data)
+    })
+})
+
 module.exports = router;

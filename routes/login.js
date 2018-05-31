@@ -10,32 +10,18 @@ var session = require('express-session');
 
 /* GET users listing. */
 router.post('/',function (req,res) {
-    let username=req.body.username;
-    let password=req.body.password;
-    let code=req.body.code;
-    console.log(code);
-    if(code.toUpperCase()!==req.session.code.toUpperCase()){
-        res.send('验证码错误')
-        return
-    }
-    else {
-        query(`select * from admin where user='${username}'`,function (err,result) {
-            if(err){
-                throw err
-            }
-            if(result.length!==0){
-                if(password===result[0].pass){
-                    req.session.login='yes';
-                    req.session.username=username;
-                    res.send('ok')
-                }else{
-                    res.send('密码错误')
-                }
-            }else{
-                res.send('账号不存在')
-            }
-        });
-    }
+    let user=req.body.user;
+    let pass=req.body.pass;
+    query('select * from user',function (err,data) {
+        let a=data.some((val,ind)=>{
+            return val.user==user&&val.pass==pass;
+        })
+        if(a){
+            res.send('ok')
+        }else{
+            res.send('no')
+        }
+    })
 });
 router.get('/captcha', function (req, res) {
     var captcha = svgCaptcha.create({
