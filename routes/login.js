@@ -10,18 +10,26 @@ var session = require('express-session');
 
 /* GET users listing. */
 router.post('/',function (req,res) {
-    let user=req.body.user;
-    let pass=req.body.pass;
-    query('select * from user',function (err,data) {
-        let a=data.some((val,ind)=>{
-            return val.user==user&&val.pass==pass;
+    let user=req.body.username;
+    let pass=req.body.password;
+    let code=req.body.code;
+    let sessionCode=req.session.code;
+    if(sessionCode.toLowerCase()==code.toLowerCase()){
+        query('select * from admin',function (err,data) {
+            if(err) throw err;
+            if(data[0].user==user){
+                if(data[0].pass==pass){
+                    res.send('3')
+                }else {
+                    res.send('2')
+                }
+            }else {
+                res.send('1')
+            }
         })
-        if(a){
-            res.send('ok')
-        }else{
-            res.send('no')
-        }
-    })
+    }else {
+        res.send('0');
+    }
 });
 router.get('/captcha', function (req, res) {
     var captcha = svgCaptcha.create({
