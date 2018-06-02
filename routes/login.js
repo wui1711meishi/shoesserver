@@ -41,7 +41,24 @@ router.get('/captcha', function (req, res) {
     res.type('svg'); // 使用ejs等模板时如果报错 res.type('html')
     res.status(200).send(captcha.data);
 });
-
+//前台登录
+router.post('/userlogin',function (req,res) {
+    let user=req.body.user;
+    let password=req.body.password;
+    console.log(password);
+    query(`select * from user where user=${user}`,function (err,result) {
+        if(err) throw err;
+        if(result){
+            if(result[0].pass==password){
+                res.send('1')
+            }else {
+                res.send('-1')
+            }
+        }else {
+            res.send('0')
+        }
+    })
+});
 
 
 module.exports = router;
