@@ -151,9 +151,13 @@ router.post('/order', function (req, res) {
 
     })
 })
+// 添加购物车按钮
 router.post('/addcar',function (req,res) {
-    let id=req.body.id;
-    console.log(id);
+    let sid=req.body.id;
+    let user=sessionStorage.user;
+    query(`select * from user where user=${user}`,function (err,data) {
+        console.log(data)
+    })
 })
 
 router.post('/adar', function (req, res) {

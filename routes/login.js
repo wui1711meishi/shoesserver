@@ -46,7 +46,7 @@ router.post('/userlogin',function (req,res) {
     let user=req.body.user;
     let password=req.body.password;
     console.log(password);
-    query(`select * from user where user=${user}`,function (err,result) {
+    query(`select * from user where user='${user}'`,function (err,result) {
         if(err) throw err;
         if(result){
             if(result[0].pass==password){
