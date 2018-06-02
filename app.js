@@ -44,6 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/api',express.static(path.join(__dirname, '/public')));
 
+
 app.use('/api/login', loginRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/user', userRouter);
@@ -74,6 +75,6 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(8000,function () {
+app.listen(9000,function () {
     console.log('ok');
 })
