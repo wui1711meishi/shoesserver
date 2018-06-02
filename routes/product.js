@@ -175,6 +175,19 @@ router.post('/addcar',function (req,res) {
     })
 })
 
+// 填写订单获取数据
+router.post('/getcarle',function (req,res) {
+    let user=req.body.user;
+
+    query(`select * from user where user='${user}'`,function (err,data) {
+        userId=data[0].id;
+        // 返回用户购物车数据
+        query(`select * from car inner join shoes where car.sid=shoes.id`,function (err,data) {
+            res.json(data)
+        })
+    })
+})
+
 router.post('/adar', function (req, res) {
     let add=req.body.add;
     let sid=req.body.sid;
@@ -184,6 +197,36 @@ router.post('/adar', function (req, res) {
     query(`select ordernumber from orders where sid=${sid}`,function (err,data) {
         res.json(data);
     })
+})
+
+router.post('/ikm', function (req, res) {
+    let arr=[]
+
+    if(req.body['ssid[]'] instanceof Array){
+        console.log(2)
+        req.body['ssid[]'].forEach((val,ind)=>{
+            query(`select * from shoes where id=${val}`,(err,data)=> {
+                arr.push(data[0])
+                if(ind==req.body['ssid[]'].length-1){
+                    res.json(arr)
+                }
+            })
+        })
+    }else{
+        console.log(1)
+            let aa=[req.body['ssid[]']]
+        aa.forEach((val,ind)=>{
+            query(`select * from shoes where id=${val}`,(err,data)=> {
+                arr.push(data[0])
+                if(ind==req.body['ssid[]'].length-1){
+                    res.json(arr)
+                }
+            })
+        })
+    }
+
+
+
 })
 
 router.get('/my',function (req,res) {
