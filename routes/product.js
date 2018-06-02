@@ -151,6 +151,10 @@ router.post('/order', function (req, res) {
 
     })
 })
+router.post('/addcar',function (req,res) {
+    let id=req.body.id;
+    console.log(id);
+})
 
 router.post('/adar', function (req, res) {
     let add=req.body.add;
