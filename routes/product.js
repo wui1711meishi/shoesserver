@@ -154,9 +154,24 @@ router.post('/order', function (req, res) {
 // 添加购物车按钮
 router.post('/addcar',function (req,res) {
     let sid=req.body.id;
-    let user=sessionStorage.user;
-    query(`select * from user where user=${user}`,function (err,data) {
-        console.log(data)
+    let user=req.body.user;
+    let color=req.body.color;
+    let size=req.body.size;
+    let count=req.body.num;
+    let userId=0;
+    query(`select * from user where user='${user}'`,function (err,data) {
+        userId=data[0].id;
+        query(`insert into car (uid,sid,color,size,count) value ('${userId}','${sid}','${color}','${size}','${count}')`,function (err,data) {
+            if(err){
+                throw err
+            }else{
+                if(data.affectedRows==1){
+                    res.send('ok')
+                }else{
+                    res.send('no')
+                }
+            }
+        })
     })
 })
 
