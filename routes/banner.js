@@ -81,6 +81,11 @@ router.get('/update',function (req,res) {
     })
 });
 
+
+router.post('/my',function (req,res) {
+    console.log(req.body)
+})
+
 router.post('/changeget',function (req,res) {
     let id=req.body.id;
     let sid=req.body.input;

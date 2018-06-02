@@ -224,20 +224,38 @@ router.post('/ikm', function (req, res) {
             })
         })
     }
-
-
-
+})
+router.post('/ordernub',function (req,res) {
+    let user=req.body.user;
+    let address=req.body.address;
+    query(`select * from user where user='${user}'`,function (err,data) {
+        let uid=data[0].id;
+        let time=new Date().getTime();
+        query(`insert into ordernub (uid,ordernub,address) values (${uid},'${time}','${address}')`,function (err,data) {
+            if(err) throw err;
+            if(data.affectedRows=='1'){
+                res.json(time)
+            }else {
+                res.json('no')
+            }
+        })
+    })
 })
 
-router.get('/my',function (req,res) {
-    query(`select * from orders`,function (err,data) {
-        res.json(data);
+router.post('/my',function (req,res) {
+    let user=req.body.user;
+    query(`select * from user where user='${user}'`,function (err,data) {
+        let id=data[0].id
+        query(`select * from car inner join shoes where car.sid=shoes.id`,function (err,data) {
+           res.json(data)
+        })
     })
 })
 
 router.get('/del',function (req,res) {
     let id=req.query.id;
-    query(`delete from orders where id=${id}`,function (err,data) {
+    console.log(id)
+    query(`delete from car where id=${id}`,function (err,data) {
 
     })
 })
@@ -247,5 +265,7 @@ router.get('/car',function (req,res) {
         res.json(data)
     })
 })
+
+
 
 module.exports = router;
