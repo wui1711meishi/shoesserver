@@ -21,6 +21,13 @@ router.get('/', function (req, res) {
         res.json(data)
     })
 });
+router.get('/selectshoes', function (req, res) {
+    let offset=req.query.offset;
+    query(`select * from shoes limit ${offset},8`, function (err, data) {
+        if(err) throw err;
+        res.json(data)
+    })
+});
 router.post('/add', function (req, res) {
     let name = req.body.name;
     let ename = req.body.ename;

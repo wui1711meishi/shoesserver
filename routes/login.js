@@ -45,20 +45,18 @@ router.get('/captcha', function (req, res) {
 router.post('/userlogin',function (req,res) {
     let user=req.body.user;
     let password=req.body.password;
-    console.log(password);
-    query(`select * from user where user='${user}'`,function (err,result) {
+    query(`select * from user`,function (err,result) {
         if(err) throw err;
-        if(result){
-            if(result[0].pass==password){
+        let flag=result.findIndex(val=>val.user==user);
+        if(flag=='-1'){
+            res.send('0')
+        }else {
+            if(result[flag].pass==password){
                 res.send('1')
             }else {
                 res.send('-1')
             }
-        }else {
-            res.send('0')
         }
     })
 });
-
-
 module.exports = router;
